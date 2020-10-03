@@ -1,0 +1,194 @@
+﻿@model RestaurantWebApp.Models.CreateOrderViewModel
+
+@{
+    ViewBag.Title = "Place Order";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.ValidationMessage("error_message", new { @class = "text-danger" })
+
+    for (var i = 0; i < Model.MenuItems.Count; i++)
+    {
+        @Html.HiddenFor(x => x.MenuItems[i].MenuItem.Id)
+        @Html.HiddenFor(x => x.MenuItems[i].MenuItem.Category)
+        @Html.HiddenFor(x => x.MenuItems[i].MenuItem.Name)
+        @Html.HiddenFor(x => x.MenuItems[i].MenuItem.Price)
+    }
+    for (var i = 0; i < Model.Discounts.Count; i++)
+    {
+        @Html.HiddenFor(x => x.Discounts[i].Discount.Id)
+        @Html.HiddenFor(x => x.Discounts[i].Discount.Name)
+        @Html.HiddenFor(x => x.Discounts[i].Discount.DiscountType)
+        @Html.HiddenFor(x => x.Discounts[i].Discount.FlatAmount)
+        @Html.HiddenFor(x => x.Discounts[i].Discount.Percent)
+    }
+    for (var i = 0; i < Model.Taxes.Count; i++)
+    {
+        @Html.HiddenFor(x => x.Taxes[i].Id)
+        @Html.HiddenFor(x => x.Taxes[i].Name)
+        @Html.HiddenFor(x => x.Taxes[i].Percentage)
+    }
+
+    <h3>Appetizers</h3>
+    <table class="table" id="apptable">
+        <tr>
+            <th style="width: 40%">
+                @Html.DisplayNameFor(model => model.MenuItems[0].MenuItem.Name)
+            </th>
+            <th style="width: 40%">
+                @Html.DisplayNameFor(model => model.MenuItems[0].MenuItem.Price)
+            </th>
+            <th style="width: 20%">
+                @Html.DisplayNameFor(model => model.MenuItems[0].Amount)
+            </th>
+            <th></th>
+        </tr>
+
+        @for (var i = 0; i < Model.MenuItems.Count; i++)
+        {
+            if (Model.MenuItems[i].MenuItem.Category == RestaurantWebApp.Models.Category.Appetizers)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => modelItem.MenuItems[i].MenuItem.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => modelItem.MenuItems[i].MenuItem.Price)
+                    </td>
+                    <td>
+                        @Html.EditorFor(model => model.MenuItems[i].Amount, new { htmlAttributes = new { @class = "form-control", @style = "width:80px" } })
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+
+
+    <h3>Food</h3>
+    <table class="table" id="foodtable">
+        <tr>
+            <th style="width: 40%">
+                @Html.DisplayNameFor(model => model.MenuItems[0].MenuItem.Name)
+            </th>
+            <th style="width: 40%">
+                @Html.DisplayNameFor(model => model.MenuItems[0].MenuItem.Price)
+            </th>
+            <th style="width: 20%">
+                @Html.DisplayNameFor(model => model.MenuItems[0].Amount)
+            </th>
+            <th></th>
+        </tr>
+
+        @for (var i = 0; i < Model.MenuItems.Count; i++)
+        {
+            if (Model.MenuItems[i].MenuItem.Category == RestaurantWebApp.Models.Category.Food)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => modelItem.MenuItems[i].MenuItem.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => modelItem.MenuItems[i].MenuItem.Price)
+                    </td>
+                    <td>
+                        @Html.EditorFor(model => model.MenuItems[i].Amount, new { htmlAttributes = new { @class = "form-control", @style = "width:80px" } })
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+
+
+    <h3>Drinks</h3>
+    <table class="table" id="drinktable">
+        <tr>
+            <th style="width: 40%">
+                @Html.DisplayNameFor(model => model.MenuItems[0].MenuItem.Name)
+            </th>
+            <th style="width: 40%">
+                @Html.DisplayNameFor(model => model.MenuItems[0].MenuItem.Price)
+            </th>
+            <th style="width: 20%">
+                @Html.DisplayNameFor(model => model.MenuItems[0].Amount)
+            </th>
+            <th></th>
+        </tr>
+
+        @for (var i = 0; i < Model.MenuItems.Count; i++)
+        {
+            if (Model.MenuItems[i].MenuItem.Category == RestaurantWebApp.Models.Category.Drinks)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => modelItem.MenuItems[i].MenuItem.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => modelItem.MenuItems[i].MenuItem.Price)
+                    </td>
+                    <td>
+                        @Html.EditorFor(model => model.MenuItems[i].Amount, new { htmlAttributes = new { @class = "form-control", @style = "width:80px" } })
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+
+    <h3>Discounts</h3>
+    <table class="table" id="discounttable">
+        <tr>
+            <th style="width: 25%">
+                @Html.DisplayNameFor(model => model.Discounts[0].Discount.Name)
+            </th>
+            <th style="width: 25%">
+                @Html.DisplayNameFor(model => model.Discounts[0].Discount.DiscountType)
+            </th>
+            <th style="width: 25%">
+                Amount
+            </th>
+            <th style="width: 25%">
+                Select
+            </th>
+            <th></th>
+        </tr>
+
+        @for (var i = 0; i < Model.Discounts.Count; i++)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => modelItem.Discounts[i].Discount.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => modelItem.Discounts[i].Discount.DiscountType)
+                </td>
+                <td>
+                    @if (Model.Discounts[i].Discount.DiscountType == RestaurantWebApp.Models.DiscountType.Fixed)
+                    {
+                        @Html.DisplayFor(model => model.Discounts[i].Discount.FlatAmount)
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(model => model.Discounts[i].Discount.Percent)
+                    }
+                </td>
+                <td>
+                    @Html.CheckBoxFor(model => model.Discounts[i].isActive)
+                </td>
+            </tr>
+        }
+    </table>
+
+    <div class="form-group">
+        <div>
+            <input type="submit" value="Place Order" class="btn btn-default" />
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
